@@ -2,7 +2,7 @@
   <img alt="Chat" title="Chat" src=".github/assets/logo.png" width="400px" />
 </p>
 <h3 align="center">
-Veja os repositórios públicos de qualquer usuário de maneira simples
+Chat com Blazor + SignalR
 </h3>
 
 <p align="center">
