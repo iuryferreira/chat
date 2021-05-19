@@ -1,0 +1,44 @@
+@page "/login"
+@inject NavigationManager NavigationManager
+@inject User User
+
+<section class="container is-centered" style="margin-top:13vh;">
+    <div class="columns is-centered is-vcentered is-mobile">
+        <div class="column">
+            <div class="block has-text-centered has-text-grey">
+                <p style="font-size: 8rem;" class="has-text-info">
+                    <span class="icon">
+                        <i class="fas fa-comment"></i>
+                    </span>
+                </p>
+                <p>
+                    Bem vindo ao <b class="has-text-info">Chat</b>, digite o nome do usuário e entre.
+                </p>
+            </div>
+            <div class="block has-text-centered">
+                <div class="field has-addons has-addons-centered">
+                    <div class="control">
+                        <input class="input" type="text" placeholder="Digite o nome do usuário" @bind="Username">
+                    </div>
+                    <div class="control">
+                        <button class="button is-info" @onclick="HandleSubmit">
+                            Entrar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@code {
+
+    public string Username { get; set; }
+
+    void HandleSubmit()
+    {
+        User.Username = Username;
+        NavigationManager.NavigateTo("/");
+    }
+
+}
