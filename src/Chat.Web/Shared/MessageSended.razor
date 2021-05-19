@@ -1,0 +1,19 @@
+<div class="columns is-flex-direction-row-reverse">
+    <div class="column is-narrow ">
+        <div class="box has-background-info has-text-white">
+            <p>@Text</p>
+            <div class="has-text-right">
+                <small style="font-size: 9px;">Você - @Date.ToShortTimeString()</small>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+
+    [Parameter]
+    public string Text { get; set; }
+
+    [Parameter]
+    public DateTime Date { get; set; }
+}

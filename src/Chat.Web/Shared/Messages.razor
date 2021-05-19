@@ -1,0 +1,11 @@
+<section class="chat is-flex is-flex-wrap-wrap">
+    <div class="container is-fluid is-flex is-flex-direction-column is-flex-1"
+        style="height: 70vh; overflow-y: scroll;">
+        @ChildContent
+    </div>
+</section>
+
+@code {
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+}
