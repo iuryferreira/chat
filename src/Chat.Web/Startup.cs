@@ -17,8 +17,12 @@ namespace Chat.Web
 
         public void ConfigureServices (IServiceCollection services)
         {
+            services.AddSignalR();
             services.AddRazorPages();
             services.AddServerSideBlazor();
+            services.AddSingleton<State>();
+            services.AddScoped<User>();
+
         }
 
         public void Configure (IApplicationBuilder app, IWebHostEnvironment env)
@@ -29,7 +33,6 @@ namespace Chat.Web
             }
             else
             {
-                app.UseExceptionHandler("/Error");
                 app.UseHsts();
             }
 
@@ -42,6 +45,8 @@ namespace Chat.Web
             {
                 endpoints.MapBlazorHub();
                 endpoints.MapFallbackToPage("/_Host");
+                endpoints.MapHub<ChatHub>("/chatHub");
+
             });
         }
     }
