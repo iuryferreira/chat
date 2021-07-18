@@ -1,0 +1,27 @@
+name: deploy
+on:
+  push:
+    branches: [main]
+    paths:
+      - src/Chat.Web/**
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 5.0.200
+     
+      - name: Build
+        run:  dotnet publish src/Chat.Web -c Release --self-contained true -r linux-x64 /p:PublishSingleFile=true -o deploy
+
+      - name: Deploy to Heroku
+        uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{secrets.HEROKU_KEY}}
+          heroku_app_name: ${{ secrets.HEROKU_APP_NAME }} 
+          heroku_email: ${{ secrets.HEROKU_EMAIL }}
+          usedocker: true
