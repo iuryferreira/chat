@@ -1,6 +1,6 @@
 @page "/login"
-@inject NavigationManager NavigationManager
-@inject User User
+@inject NavigationManager _navigationManager
+@inject User _user
 
 <section class="container is-centered" style="margin-top:13vh;">
     <div class="columns is-centered is-vcentered is-mobile">
@@ -33,12 +33,12 @@
 
 @code {
 
-    public string Username { get; set; }
+    private string Username { get; set; }
 
     void HandleSubmit()
     {
-        User.Username = Username;
-        NavigationManager.NavigateTo("/");
+        _user.Username = Username;
+        _navigationManager.NavigateTo("/");
     }
 
 }

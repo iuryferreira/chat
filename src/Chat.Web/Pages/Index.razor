@@ -1,8 +1,7 @@
-@using Microsoft.AspNetCore.SignalR.Client
-@inject NavigationManager NavigationManager
-@inject State State
-@inject User User
-@inject IJSRuntime JsRuntime
+@inject NavigationManager _navigationManager
+@inject IJSRuntime _jsRuntime
+@inject State _state
+@inject User _user
 
 @page "/"
 
@@ -10,9 +9,9 @@
 
 <Messages>
 
-    @foreach (var message in State.Messages)
+    @foreach (var message in _state.Messages)
     {
-        @if (message.User.Id == User.Id)
+        @if (message.User.Id == _user.Id)
         {
             <MessageSended Text=@message.Text Date=message.Date />
         }
@@ -45,28 +44,28 @@
 
     private HubConnection _connection;
 
-    public string Text { get; set; }
+    private string Text { get; set; }
 
-    public bool IsConnected => _connection.State == HubConnectionState.Connected;
+    private bool IsConnected => _connection.State == HubConnectionState.Connected;
 
     protected override async Task OnInitializedAsync()
     {
-        if (string.IsNullOrEmpty(User.Username))
+        if (string.IsNullOrEmpty(_user.Username))
         {
-            NavigationManager.NavigateTo("/login");
+            _navigationManager.NavigateTo("/login");
         }
 
-        _connection = new HubConnectionBuilder().WithUrl(NavigationManager.ToAbsoluteUri("/chatHub"), options =>
+        _connection = new HubConnectionBuilder().WithUrl(_navigationManager.ToAbsoluteUri("/chatHub"), options =>
         {
-            options.HttpMessageHandlerFactory = (x) => new HttpClientHandler
+            options.HttpMessageHandlerFactory = _ => new HttpClientHandler
             {
                 ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
             };
         }).Build();
-        _connection.On<string>("ReceiveMessage", async (_) =>
+        _connection.On<string>("ReceiveMessage", async _ =>
         {
             StateHasChanged();
-            await JsRuntime.InvokeAsync<string>("scrollToEnd");
+            await _jsRuntime.InvokeAsync<string>("scrollToEnd");
 
         });
         await _connection.StartAsync();
@@ -76,7 +75,7 @@
     {
         var text = Text;
         Text = "";
-        return _connection.SendAsync("SendMessage", text, User);
+        return _connection.SendAsync("SendMessage", text, _user);
     }
 
 }
